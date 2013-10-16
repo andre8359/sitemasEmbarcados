@@ -19,21 +19,22 @@ int main(int argc,char * argv[]) {
 	
 	/* confere o numero de argumentos passados para o programa */
   	if(argc<3)  {
-    	   printf("uso correto: %s <ip_do_servidor> <porta_do_servidor>\n", argv[0]);
+    	   printf("Para estabelecer comunicacao: %s <ip_do_servidor> <porta_do_servidor>\n", argv[0]);
     	   exit(1);  }
 
 	memset((char *)&ladoServ,0,sizeof(ladoServ)); /* limpa estrutura */
 	memset((char *)&bufout,0,sizeof(bufout));     /* limpa buffer */
 	
 	ladoServ.sin_family      = AF_INET; /* config. socket p. internet*/
-	ladoServ.sin_addr.s_addr = inet_addr(argv[1]);
-	ladoServ.sin_port        = htons(atoi(argv[2]));
+	ladoServ.sin_addr.s_addr = inet_addr(argv[1]); // ip do servidor
+	ladoServ.sin_port        = htons(atoi(argv[2]));// porta da conexão
 
 	/* Cria socket */
 	sd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sd < 0) {
 		fprintf(stderr, "Criacao do socket falhou!\n");
-		exit(1); }
+		exit(1); 
+	}
 
 	/* Conecta socket ao servidor definido */
 	if (connect(sd, (struct sockaddr *)&ladoServ, sizeof(ladoServ)) < 0) {
