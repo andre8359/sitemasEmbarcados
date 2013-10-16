@@ -1,0 +1,6 @@
+Neste documento será informado o processo de execução do programa. Vale ressaltar que foi gerado um script para compilar e rodar o código automaticamente, a seguir será dito como rodar tal script.
+
+1. No terminal, digite o comando chmod u+x run.sh, para dar permissão ao script run.sh
+2. Novamente no terminal, digite ./run.sh
+
+
