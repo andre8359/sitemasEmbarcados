@@ -18,8 +18,6 @@ typedef struct {
 
 /*Prototipo de atende*/
 void *atende_cliente(void *args);
-void *enviar_mensagem(void *argumentos);
-
 
 int main(int argc, char *argv[]) {
 	
@@ -29,7 +27,7 @@ int main(int argc, char *argv[]) {
 	int     alen,n; 
 	pthread_t thread_id;
 	argumentos args;
-	
+	char msg[MAX_SIZE];
 	if (argc<3) {
 		printf("Digite IP e Porta para este servidor\n");
 		exit(1); 
@@ -73,45 +71,39 @@ int main(int argc, char *argv[]) {
 		else{
 			args.descritor=novo_sk;
 			args.endCli= endCli;
-			pthread_create(&thread_id,NULL,&atende_cliente,(void *)&args);
-			pthread_join(thread_id,NULL);			
-			close (sk); /* encerra o socket sk */
+			pthread_create(&thread_id,NULL,&atende_cliente,(void *)&args);			
+	//		pthread_join(thread_id,NULL);	
+			//close (sk); /* encerra o socket sk */
 			fprintf(stdout, "Cliente %d: %u conectado.\n", inet_ntoa(endCli.sin_addr), ntohs(endCli.sin_port));
-			exit(0);
+			while(1){
+				printf("> ");	
+				fgets(msg,MAX_SIZE,stdin);
+				if(!strcmp(msg,"quit."))	break;
+				else	send(novo_sk, &msg,strlen(msg),0);
+				
+       			}
+			fprintf(stdout,"Encerrando conexao como %d : %u...\n",inet_ntoa(endCli),ntohs(endCli.sin_port));
+			break;
 		} /* fim else-if */
-		/* processo pai */
 		
-		} /* fim for */
+	} /* fim for */
+
+	close(novo_sk);
 } /* fim do programa */
-void *enviar_mensagem(void *args){
-	char *msg;
-	argumentos *dados = (argumentos *) args; 
-	fgets(msg,MAX_SIZE,stdin);
-	while(1){
-		if(strlen(msg)){
-			send( dados->descritor, msg,strlen(msg),0);
-		}
-		else if(!strcmp(msg,"quit."))	break;
-        }
-	fprintf(stdout,"Encerrando conexao como %d : %u...\n",inet_ntoa(dados->endCli),ntohs(dados->endCli.sin_port));
-	close(dados->descritor);
-}
+
+
+
 void* atende_cliente(void *args)  {
 	
 	argumentos* dados = (argumentos*) args; 
 	char bufin[MAX_SIZE];
 	int  n;
-	pthread_t thread_id;
-
-	while (1) {
-		pthread_create(&thread_id,NULL,&enviar_mensagem,(void*)dados);
-		memset(&bufin, 0x0, sizeof(bufin));
-		n = recv(dados->descritor, &bufin, sizeof(bufin),0);
-		if (strcmp(bufin, "quit.") == 0)	break;
+	
+	while (recv(dados->descritor, &bufin, sizeof(bufin),0 && strlen(bufin))>1) {
+		if (strncmp(bufin, "quit.",4) == 0)	break;
+		else
 		fprintf(stdout, "[%d:%u] => %s\n", inet_ntoa(dados->endCli.sin_addr), ntohs(dados->endCli.sin_port), bufin);
 	} /* fim while */
 	
-	fprintf(stdout, "Encerrando conexao com %d : %u ...\n", inet_ntoa(dados->endCli.sin_addr), ntohs(dados->endCli.sin_port));
-	close (dados->descritor);
 } /* fim atende_cliente */
 
