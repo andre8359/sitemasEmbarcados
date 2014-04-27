@@ -8,7 +8,7 @@
 #include <string.h>
 #include <pthread.h>
 
-#define MAX_SIZE    	80
+#define MAX_SIZE    	100
 
 
 typedef struct {
@@ -82,7 +82,7 @@ void *enviar(void *args){
 		else{
 			pthread_create(&thread_id,NULL,(void*)&adiciona_data,NULL);
 			pthread_join(thread_id,NULL);
-			printf("Servidor -- ");
+			printf("Cliente -- ");
 			printf("%s\n",msg);
 		}	
 }	 
@@ -103,7 +103,7 @@ void *receber(void *args){
 			else{
 				pthread_create(&thread_id,NULL,(void*)&adiciona_data,NULL);
 				pthread_join(thread_id,NULL);
-				fprintf(stdout, "Cliente --- %s\n", bufin);	
+					fprintf(stdout, "Servidor --- %s\n", bufin);	
 			}
 	} 
 	fprintf(stdout,"Encerrando conexao!!!\n\n");

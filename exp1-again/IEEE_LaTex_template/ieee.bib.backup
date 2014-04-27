@@ -1,0 +1,25 @@
+
+%
+%  $Description: Sample bibliography$ 
+% 
+%  $Author: ienne $ 
+%  $Date: 1995/09/15 15:19:53 $
+%  $Revision: 1.3 $
+%
+
+@Article{ex1,
+   author =   "http://image.unb.br/mintsu/Gama/SistEmb/",
+   title =   "Roteiro do Experimento 1", 
+   journal =   "Acessado em : 17/04/2014",
+   month = ""		
+}
+
+
+@Book{ex2,
+   author =   "Davies, J.", 
+   title =   "MSP430 Microcontroller Basics", 
+   publisher =   "Elsevier",
+   address = "Erewhon, NC",
+   year =   "2008"
+}
+
