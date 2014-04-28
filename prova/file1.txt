@@ -1,0 +1,13 @@
+Cheques
+cliente
+cliente.c
+faz
+faz_imagem.c
+faz_imagem.c~
+file1.txt
+fotos
+imagem_final.y
+parametros.txt
+teste
+teste.c
+teste.txt
